@@ -32,6 +32,8 @@ function App() {
         style={{
           display: "flex",
           justifyContent: "space-evenly",
+          marginTop: "20px",
+          marginBottom: "130px",
         }}
       >
         

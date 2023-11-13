@@ -1,3 +1,52 @@
 .container {
-    border: 1px solid black;
+
+    border: 2px solid black;
+    width: 450px;
+    height: 100%;
+
+
 }
+
+.headerCarList {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.carList{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+    border-top: 2px solid black;
+    padding: 10px;
+    
+
+}
+
+.cardInfo{
+    display: flex;
+    flex-direction: column;
+    font-size: x-small;
+    width: 25%;
+    height: 25%;
+}
+
+.carTitle{
+    font-size: small;
+}
+
+.AddToCartButton {
+    border: 2px solid black;
+    background-color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 20%;
+    height: 5%;
+    font-size: xx-small;
+  }
+
