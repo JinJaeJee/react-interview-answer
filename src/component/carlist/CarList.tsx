@@ -1,6 +1,4 @@
 import "./cardlist.css";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 
 interface ApiItem {
   fields: {
@@ -10,35 +8,12 @@ interface ApiItem {
   };
 }
 
-const CarList: React.FC = () => {
-  const [apiData, setApiData] = useState<ApiItem[]>([]);
-
-  useEffect(() => {
-    const apiUrl: string =
-      "https://cdn.contentful.com/spaces/vveq832fsd73/entries?content_type=car";
-    const apiToken: string = "VPmo2U661gTnhMVx0pc0-CtahNg_aqS5DuneLtYfO1o";
-
-    axios
-      .get(apiUrl, {
-        headers: {
-          Authorization: `Bearer ${apiToken}`,
-        },
-      })
-      .then((response) => {
-        const data = response.data;
-
-        const apiEntries: ApiItem[] = data.items;
-        setApiData(apiEntries);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
+const CarList: React.FC<{ apiData: ApiItem[] }> = ({ apiData }) => {
+  const apiData1 = apiData
   return (
     <div className="container">
       <div className="headerCarList"> <h3>Car List</h3></div>
-      {apiData.map((entry, index) => (
+      {apiData1.map((entry, index) => (
         <div className="carList" key={index}>
           <img
             src={entry.fields.photo}
