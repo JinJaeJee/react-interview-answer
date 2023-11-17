@@ -109,6 +109,8 @@ const App: React.FC = () => {
         <img src={logo} alt="logo" /> <span>Drivehub</span>
       </div>
       <div>XX</div>
+      <div>Sorted Component</div>
+      <div>Search Component</div>
       <div
         style={{
           display: "flex",
