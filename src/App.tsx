@@ -5,7 +5,6 @@ import Cart from "./component/cart/Cart";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-
 interface ApiItem {
   fields: {
     title: string;
@@ -15,16 +14,19 @@ interface ApiItem {
 }
 
 interface CartItem {
-  title: string;
-  price: number;
-  photo: string;
-  qty: number;
+  fields: {
+    title: string;
+    price: number;
+    photo: string;
+    qty: number;
+  };
 }
 
-
 const App: React.FC = () => {
-
   const [apiData, setApiData] = useState<ApiItem[]>([]);
+  const initialCartItems: CartItem[] = JSON.parse(
+    localStorage.getItem("cartItems") || "[]"
+  );
 
   useEffect(() => {
     const apiUrl: string =
@@ -48,23 +50,58 @@ const App: React.FC = () => {
       });
   }, []);
 
-  ///////// AddItem RemoveItem /////////
-  const [cartItems,setcartItems] = useState<CartItem[]>([])
-  // const allFields = apiData.map(item => item.fields);
-  const onAdd = (product: ApiItem): void =>{
-    const exist = cartItems.find((x) => x.title === product.fields.title);
+  const [cartItems, setcartItems] = useState<CartItem[]>(initialCartItems);
+
+  ///////// AddItem/////////
+  const onAdd = (product: ApiItem): void => {
+    const exist = cartItems.find(
+      (x) => x.fields.title === product.fields.title
+    );
     if (exist) {
-      setcartItems(
-        cartItems.map((x) =>
-          x.title === product.fields.title ? { ...exist, qty: exist.qty + 1 } : x
+      setcartItems((prevCartItems) =>
+        prevCartItems.map((x) =>
+          x.fields.title === product.fields.title
+            ? {
+                ...x,
+                fields: {
+                  ...x.fields,
+                  qty: x.fields.qty + 1,
+                },
+              }
+            : x
         )
       );
     } else {
-      setcartItems([...cartItems, { ...product.fields, qty: 1 }]);
-    }}
-  
+      setcartItems((prevCartItems) => [
+        ...prevCartItems,
+        { fields: { ...product.fields, qty: 1 } },
+      ]);
+    }
+  };
+  ///////////// Remove Items //////////////
+  const onRemove = (product: ApiItem): void => {
+    const exist = cartItems.find(
+      (x) => x.fields.title === product.fields.title
+    );
 
+    if (exist && exist.fields.qty === 1) {
+      setcartItems((prevCartItems) =>
+        prevCartItems.filter((x) => x.fields.title !== product.fields.title)
+      );
+    } else {
+      setcartItems((prevCartItems) =>
+        prevCartItems.map((x) =>
+          x.fields.title === product.fields.title
+            ? { ...x, fields: { ...x.fields, qty: x.fields.qty - 1 } }
+            : x
+        )
+      );
+    }
+  };
 
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   return (
     <div>
@@ -80,14 +117,16 @@ const App: React.FC = () => {
           marginBottom: "130px",
         }}
       >
-        
-        <div><CarList apiData={apiData} /></div>
-        <div><Cart/></div>
+        <div>
+          <CarList apiData={apiData} onAdd={onAdd} />
+        </div>
+        <div>
+          <Cart cartItems={cartItems} onAdd={onAdd} onRemove={onRemove} />
+        </div>
       </div>
       <div className="app-footer">FOOTER</div>
     </div>
   );
-}
-
+};
 
 export default App;

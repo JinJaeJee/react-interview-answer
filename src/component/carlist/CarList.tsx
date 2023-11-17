@@ -8,12 +8,18 @@ interface ApiItem {
   };
 }
 
-const CarList: React.FC<{ apiData: ApiItem[] }> = ({ apiData }) => {
-  const apiData1 = apiData
+const CarList: React.FC<{
+  apiData: ApiItem[];
+  onAdd: (product: ApiItem) => void;
+}> = (props) => {
+  const { apiData, onAdd } = props;
   return (
     <div className="container">
-      <div className="headerCarList"> <h3>Car List</h3></div>
-      {apiData1.map((entry, index) => (
+      <div className="headerCarList">
+        {" "}
+        <h3>Car List</h3>
+      </div>
+      {apiData.map((entry, index) => (
         <div className="carList" key={index}>
           <img
             src={entry.fields.photo}
@@ -22,9 +28,11 @@ const CarList: React.FC<{ apiData: ApiItem[] }> = ({ apiData }) => {
           />
           <div className="cardInfo">
             <h2 className="carTitle">Title: {entry.fields.title}</h2>
-            <p className="carPrice">Price: {entry.fields.price}</p>
+            <p className="carPrice">Price: {entry.fields.price} THB/DAY</p>
           </div>
-          <button className="AddToCartButton">Add To cart</button>
+          <button className="AddToCartButton" onClick={() => onAdd(entry)}>
+            Add To cart
+          </button>
         </div>
       ))}
     </div>

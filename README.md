@@ -11,9 +11,9 @@
 
 ## Requirements
 
-- As a user, I want to see list of car
-- As a user, I want to search car by title
-- As a user, I want to sorting car by price, title
+- As a user, I want to see list of car ////done
+- As a user, I want to search car by title ///
+- As a user, I want to sorting car by price, title ///
 - As a User, I want to pick many cars as I want
 - As a User, I want to update rental duration of each car in cart
 - As a User, I want to see total amount of the cart
@@ -27,6 +27,7 @@
 - Follow the design from wireframe
 
 ## Wireframe
+
 You can find wireframe link from your email, please login with google to access figma. <br/>
 If you can't access or not receive the mail, please contact us (developers@drivehub.co)
 
